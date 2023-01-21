@@ -49,32 +49,6 @@ def mouth_feature(landmarks):
     return (N1 + N2 + N3) / (3 * D)
 
 
-def pupil_circularity(landmarks, eye):
-    ''' Calculate pupil circularity feature.
-    :param landmarks: Face Landmarks returned from FaceMesh MediaPipe model
-    :param eye: List containing positions which correspond to the eye
-    :return: Pupil circularity for the eye coordinates
-    '''
-    perimeter = distance(landmarks[eye[0][0]], landmarks[eye[1][0]]) + \
-                distance(landmarks[eye[1][0]], landmarks[eye[2][0]]) + \
-                distance(landmarks[eye[2][0]], landmarks[eye[3][0]]) + \
-                distance(landmarks[eye[3][0]], landmarks[eye[0][1]]) + \
-                distance(landmarks[eye[0][1]], landmarks[eye[3][1]]) + \
-                distance(landmarks[eye[3][1]], landmarks[eye[2][1]]) + \
-                distance(landmarks[eye[2][1]], landmarks[eye[1][1]]) + \
-                distance(landmarks[eye[1][1]], landmarks[eye[0][0]])
-    area = math.pi * ((distance(landmarks[eye[1][0]], landmarks[eye[3][1]]) * 0.5) ** 2)
-    return (4 * math.pi * area) / (perimeter ** 2)
-
-
-def pupil_feature(landmarks):
-    ''' Calculate the pupil feature as the average of the pupil circularity for the two eyes
-    :param landmarks: Face Landmarks returned from FaceMesh MediaPipe model
-    :return: Pupil feature value
-    '''
-    return (pupil_circularity(landmarks, left_eye) + \
-            pupil_circularity(landmarks, right_eye)) / 2
-
 
 def run_face_mp(image):
     global handy
